@@ -451,8 +451,44 @@
     <div class="ctrl-group">
       <h3>🛡 Wargear</h3>
       <div class="ctrl-row">
-        <label>Wargear List</label>
-        <input type="text" oninput="document.getElementById('wargear-main').textContent=this.value" value="Staff of Power*, Glamdring and Narya">
+        <label>Wargear (one per line)</label>
+        <textarea id="ctrl-wargear" oninput="updateList('wargear-main', this.value)" rows="3">Staff of Power*, Glamdring and Narya</textarea>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <h3>⚡ Heroic Actions</h3>
+      <div class="ctrl-row">
+        <label>Actions (one per line)</label>
+        <textarea id="ctrl-heroic" oninput="updateBulletList('heroic', this.value)" rows="4">Heroic Resolve
+Heroic Channelling
+Heroic Strike</textarea>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <h3>✨ Magical Powers</h3>
+      <div class="ctrl-row">
+        <label>Powers (Name | Range | Roll)</label>
+        <textarea id="ctrl-powers" oninput="updatePowersTable(this.value)" rows="9">Blinding Light | – | 2+
+Immobilise | 12" | 2+
+Terrifying Aura | – | 2+
+Command | 12" | 2+
+Fortify Spirit | 12" | 3+
+Strengthen Will | 12" | 3+
+Banishment | 12" | 4+
+Sorcerous Blast | 12" | 4+
+Your Staff is Broken | 12" | 4+</textarea>
+      </div>
+    </div>
+
+    <div class="ctrl-group">
+      <h3>⭐ Special Rules</h3>
+      <div class="ctrl-row">
+        <label>Rules (one per line)</label>
+        <textarea id="ctrl-special" oninput="updateBulletList('special-rules', this.value)" rows="4">Magical Being
+Ancient Evil
+Terror</textarea>
       </div>
     </div>
 
@@ -571,6 +607,37 @@
       el.appendChild(frag);
       range.insertNode(el);
     }
+  }
+
+  function updateList(id, value) {
+    document.getElementById(id).textContent = value;
+  }
+
+  function updateBulletList(id, value) {
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    const lines = value.split('\n').filter(l => l.trim());
+    lines.forEach((line, i) => {
+      el.appendChild(document.createTextNode('• ' + line.trim()));
+      if (i < lines.length - 1) el.appendChild(document.createElement('br'));
+    });
+  }
+
+  function updatePowersTable(value) {
+    const table = document.getElementById('powers-table');
+    table.innerHTML = '';
+    const lines = value.split('\n').filter(l => l.trim());
+    lines.forEach(line => {
+      const parts = line.split('|').map(p => p.trim());
+      const tr = document.createElement('tr');
+      [parts[0] || '', parts[1] || '–', parts[2] || ''].forEach(text => {
+        const td = document.createElement('td');
+        td.contentEditable = 'true';
+        td.textContent = text;
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
   }
 
   document.getElementById('wargear-main').addEventListener('keydown', function(e) {

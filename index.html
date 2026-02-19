@@ -456,18 +456,6 @@
     </div>
 
     <div class="ctrl-group">
-      <h3>✨ Powers & Actions</h3>
-      <div class="ctrl-row">
-        <label>Add Magical Power Row</label>
-        <button class="btn" onclick="addPowerRow()">+ Add Row</button>
-      </div>
-      <div class="ctrl-row">
-        <label>Remove Last Power Row</label>
-        <button class="btn" onclick="removePowerRow()">– Remove Row</button>
-      </div>
-    </div>
-
-    <div class="ctrl-group">
       <h3>🐴 Companion / Mount</h3>
       <div class="ctrl-row">
         <label>Show Companion Block</label>
@@ -528,21 +516,6 @@
     const newRange = document.createRange();
     newRange.selectNodeContents(el);
     selection.addRange(newRange);
-  }
-
-  function addPowerRow() {
-    const table = document.getElementById('powers-table');
-    const row = table.insertRow();
-    for (let i = 0; i < 3; i++) {
-      const td = row.insertCell();
-      td.contentEditable = 'true';
-      td.textContent = i === 0 ? 'New Power' : i === 1 ? '12"' : '4+';
-    }
-  }
-
-  function removePowerRow() {
-    const table = document.getElementById('powers-table');
-    if (table.rows.length > 1) table.deleteRow(table.rows.length - 1);
   }
 
   document.getElementById('wargear-main').addEventListener('keydown', function(e) {

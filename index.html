@@ -155,7 +155,11 @@
 
   .body { display: flex; gap: 14px; }
   .left-col { flex: 1; }
-  .right-col { width: 200px; }
+  .right-col {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
 
   .portrait-ring {
     width: 95px;
@@ -172,7 +176,7 @@
     cursor: pointer;
     position: relative;
   }
-  .portrait-ring img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait-ring img { width: 100%; height: 100%; object-fit: cover; display: none; }
   .portrait-placeholder {
     font-family: 'Cinzel', serif;
     font-size: 0.65rem;
@@ -386,14 +390,6 @@
           <div class="shield"><span class="shield-label">W</span><div class="shield-icon" contenteditable="true">6*</div></div>
           <div class="shield"><span class="shield-label">F</span><div class="shield-icon" contenteditable="true">3</div></div>
         </div>
-        <label for="img-upload">
-          <div class="portrait-ring" title="Click to upload image">
-            <img id="portrait-img" src="" alt="" style="display:none;">
-            <div class="portrait-placeholder" id="portrait-ph">Click to<br>Upload<br>Portrait</div>
-          </div>
-        </label>
-        <input type="file" id="img-upload" accept="image/*" aria-label="Upload portrait image">
-
         <div class="section-title">Special Rules</div>
         <div id="special-rules" style="font-size:0.72rem; line-height:1.6;" contenteditable="true">• Magical Being<br>• Ancient Evil<br>• Terror</div>
 
@@ -435,6 +431,16 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="right-col">
+        <label for="img-upload">
+          <div class="portrait-ring" title="Click to upload image">
+            <img id="portrait-img" src="" alt="Hero portrait">
+            <div class="portrait-placeholder" id="portrait-ph">Click to<br>Upload<br>Portrait</div>
+          </div>
+        </label>
+        <input type="file" id="img-upload" accept="image/*" aria-label="Upload portrait image">
       </div>
 
     </div>

@@ -551,6 +551,29 @@
     const table = document.getElementById('powers-table');
     if (table.rows.length > 1) table.deleteRow(table.rows.length - 1);
   }
+
+  document.getElementById('wargear-main').addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+    if (!this.innerHTML.includes('• ')) {
+      this.insertBefore(document.createTextNode('• '), this.firstChild);
+      range.selectNodeContents(this);
+      range.collapse(false);
+    }
+    range.deleteContents();
+    const frag = document.createDocumentFragment();
+    frag.appendChild(document.createElement('br'));
+    const bullet = document.createTextNode('• ');
+    frag.appendChild(bullet);
+    range.insertNode(frag);
+    range.setStartAfter(bullet);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
 </script>
 
 </body>

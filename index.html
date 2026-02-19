@@ -322,6 +322,13 @@
   [contenteditable]:hover { background: rgba(139,105,20,0.1); }
   [contenteditable]:focus { background: rgba(139,105,20,0.15); outline: none; }
 
+  @media print {
+    body { background: white; padding: 0; }
+    h1, .controls { display: none !important; }
+    .layout { display: block; }
+    .card { box-shadow: none; border: none; }
+  }
+
 </style>
 </head>
 <body>

@@ -292,6 +292,24 @@
   .btn-print { background: #1a3d00; border-color: #4a8a00; color: #a0d060; }
   .btn-print:hover { background: #2a5a00; }
 
+  .fmt-btns { display: flex; gap: 8px; }
+  .btn-fmt {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    letter-spacing: 0;
+    padding: 4px 0;
+    border: 1.5px solid #8b6914;
+    background: #3d1f00;
+    color: #c8a96e;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .btn-fmt:hover { background: #5a2e00; }
+  .btn-fmt-bold { font-weight: 700; }
+  .btn-fmt-italic { font-style: italic; }
+
   [contenteditable]:hover { background: rgba(139,105,20,0.1); }
   [contenteditable]:focus { background: rgba(139,105,20,0.15); outline: none; }
 
@@ -462,6 +480,17 @@
       </div>
     </div>
 
+    <div class="ctrl-group">
+      <h3>✍ Text Formatting</h3>
+      <div class="ctrl-row">
+        <label>Select text, then apply</label>
+        <div class="fmt-btns">
+          <button class="btn-fmt btn-fmt-bold" onclick="applyFormat('strong')" title="Bold" aria-label="Apply bold formatting to selected text">B</button>
+          <button class="btn-fmt btn-fmt-italic" onclick="applyFormat('em')" title="Italic" aria-label="Apply italic formatting to selected text">I</button>
+        </div>
+      </div>
+    </div>
+
     <button class="btn btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
 
   </div>
@@ -481,6 +510,27 @@
     };
     reader.readAsDataURL(file);
   });
+
+  function applyFormat(tag) {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return;
+    const range = selection.getRangeAt(0);
+    let container = range.commonAncestorContainer;
+    while (container && container.nodeType !== Node.ELEMENT_NODE) container = container.parentNode;
+    if (!container || !container.isContentEditable) return;
+    const el = document.createElement(tag);
+    try {
+      range.surroundContents(el);
+    } catch (e) {
+      const fragment = range.extractContents();
+      el.appendChild(fragment);
+      range.insertNode(el);
+    }
+    selection.removeAllRanges();
+    const newRange = document.createRange();
+    newRange.selectNodeContents(el);
+    selection.addRange(newRange);
+  }
 
   function addPowerRow() {
     const table = document.getElementById('powers-table');

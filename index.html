@@ -477,6 +477,19 @@
           <button class="btn-fmt btn-fmt-italic" onclick="applyFormat('em')" title="Italic" aria-label="Apply italic formatting to selected text">I</button>
         </div>
       </div>
+      <div class="ctrl-row">
+        <label>Text Color</label>
+        <input type="color" id="color-picker" value="#1a0d00" onmousedown="saveSelForColor()" onchange="applyTextColor(this.value)" aria-label="Pick text color">
+      </div>
+      <div class="ctrl-row">
+        <label>Font Size</label>
+        <div class="fmt-btns">
+          <button class="btn-fmt" onclick="applyTextSize('0.6rem')" title="Small" aria-label="Apply small font size" style="font-size:0.6rem;">S</button>
+          <button class="btn-fmt" onclick="applyTextSize('0.78rem')" title="Medium" aria-label="Apply medium font size" style="font-size:0.78rem;">M</button>
+          <button class="btn-fmt" onclick="applyTextSize('1rem')" title="Large" aria-label="Apply large font size" style="font-size:1rem;">L</button>
+          <button class="btn-fmt" onclick="applyTextSize('1.25rem')" title="X-Large" aria-label="Apply extra large font size" style="font-size:1.25rem;">XL</button>
+        </div>
+      </div>
     </div>
 
     <button class="btn btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
@@ -518,6 +531,47 @@
     const newRange = document.createRange();
     newRange.selectNodeContents(el);
     selection.addRange(newRange);
+  }
+
+  let _colorSelRange = null;
+
+  function saveSelForColor() {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+      _colorSelRange = sel.getRangeAt(0).cloneRange();
+    }
+  }
+
+  function applyTextColor(color) {
+    applyStyledSpan('color', color, _colorSelRange);
+    _colorSelRange = null;
+  }
+
+  function applyTextSize(size) {
+    applyStyledSpan('fontSize', size, null);
+  }
+
+  function applyStyledSpan(prop, value, savedRange) {
+    const sel = window.getSelection();
+    let range = null;
+    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+      range = sel.getRangeAt(0);
+    } else if (savedRange && !savedRange.collapsed) {
+      range = savedRange;
+    }
+    if (!range) return;
+    let container = range.commonAncestorContainer;
+    while (container && container.nodeType !== Node.ELEMENT_NODE) container = container.parentNode;
+    if (!container || !container.isContentEditable) return;
+    const el = document.createElement('span');
+    el.style[prop] = value;
+    try {
+      range.surroundContents(el);
+    } catch (e) {
+      const frag = range.extractContents();
+      el.appendChild(frag);
+      range.insertNode(el);
+    }
   }
 
   document.getElementById('wargear-main').addEventListener('keydown', function(e) {

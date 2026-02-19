@@ -322,28 +322,6 @@
   [contenteditable]:hover { background: rgba(139,105,20,0.1); }
   [contenteditable]:focus { background: rgba(139,105,20,0.15); outline: none; }
 
-  @page {
-    size: 4in 6in;
-    margin: 0;
-  }
-
-  @media print {
-    body { background: white; padding: 0; margin: 0; }
-    .controls, h1 { display: none; }
-    .layout { display: block; }
-    .card {
-      box-shadow: none;
-      background: white;
-      background-image: none;
-      border-color: #8b6914;
-      width: 4in;
-      height: 6in;
-      min-height: unset;
-    }
-    .stats-row, .companion-block, .shield-icon {
-      background: white !important;
-    }
-  }
 </style>
 </head>
 <body>

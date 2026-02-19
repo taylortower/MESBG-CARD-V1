@@ -325,7 +325,7 @@
         <div class="hero-name" contenteditable="true" id="name">GANDALF THE WHITE</div>
         <div class="hero-type" contenteditable="true" id="type">Wizard, Infantry, Hero – Hero of Valor</div>
 
-        <div class="stats-row" id="main-stats-row" style="margin-top:8px;">
+        <div class="stats-row" style="margin-top:8px;">
           <div class="stat-cell"><span class="stat-label">Mv</span><span class="stat-value" contenteditable="true">6"</span></div>
           <div class="stat-cell"><span class="stat-label">F</span><span class="stat-value" contenteditable="true">5/4+</span></div>
           <div class="stat-cell"><span class="stat-label">S</span><span class="stat-value" contenteditable="true">4</span></div>
@@ -454,18 +454,6 @@
     </div>
 
     <div class="ctrl-group">
-      <h3>📊 Stat Block</h3>
-      <div class="ctrl-row">
-        <label>Add Stat Cell</label>
-        <button class="btn" onclick="addStatCell()">+ Add Stat</button>
-      </div>
-      <div class="ctrl-row">
-        <label>Remove Last Stat Cell</label>
-        <button class="btn" onclick="removeStatCell()">– Remove Stat</button>
-      </div>
-    </div>
-
-    <div class="ctrl-group">
       <h3>🐴 Companion / Mount</h3>
       <div class="ctrl-row">
         <label>Show Companion Block</label>
@@ -495,28 +483,6 @@
     };
     reader.readAsDataURL(file);
   });
-
-  function addStatCell() {
-    const row = document.getElementById('main-stats-row');
-    const cell = document.createElement('div');
-    cell.className = 'stat-cell';
-    const label = document.createElement('span');
-    label.className = 'stat-label';
-    label.contentEditable = 'true';
-    label.textContent = 'New';
-    const value = document.createElement('span');
-    value.className = 'stat-value';
-    value.contentEditable = 'true';
-    value.textContent = '0';
-    cell.appendChild(label);
-    cell.appendChild(value);
-    row.appendChild(cell);
-  }
-
-  function removeStatCell() {
-    const row = document.getElementById('main-stats-row');
-    if (row.children.length > 1) row.removeChild(row.lastElementChild);
-  }
 
   function addPowerRow() {
     const table = document.getElementById('powers-table');
